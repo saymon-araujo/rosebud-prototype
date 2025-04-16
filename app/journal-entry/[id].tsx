@@ -107,7 +107,6 @@ export default function JournalEntryScreen() {
   const fetchEntryDetails = async () => {
     try {
       setLoading(true)
-      console.log("Fetching entry details for ID:", entryId)
 
       // First, fetch the journal entry
       const { data: entryData, error: entryError } = await supabase
@@ -119,7 +118,6 @@ export default function JournalEntryScreen() {
       if (entryError) throw entryError
 
       if (entryData) {
-        console.log("Found journal entry:", entryData.id)
         // Add the user's journal entry as a message
         addMessage(entryData.content, MESSAGE_TYPE.USER)
 
@@ -133,7 +131,6 @@ export default function JournalEntryScreen() {
 
         if (suggestionData && suggestionData.length > 0) {
           const suggestion = suggestionData[0]
-          console.log("Found suggestion:", suggestion.id)
 
           // Add the AI response as a message
           const aiMessage = addMessage(suggestion.response_text, MESSAGE_TYPE.AI, {
@@ -154,7 +151,6 @@ export default function JournalEntryScreen() {
         }
       }
     } catch (error) {
-      console.error("Error fetching entry details:", error)
       addMessage("Sorry, I couldn't load your previous entry. Let's start a new conversation.", MESSAGE_TYPE.SYSTEM)
       setChatState(CHAT_STATE.WAITING_FOR_ENTRY)
     } finally {
@@ -181,7 +177,6 @@ export default function JournalEntryScreen() {
     try {
       setLoading(true)
       setAnalyzing(true)
-      console.log("Analyzing journal entry")
 
       // Add a "thinking" message
       addMessage("Thinking...", MESSAGE_TYPE.SYSTEM)
@@ -194,13 +189,11 @@ export default function JournalEntryScreen() {
         .single()
 
       if (entryError) throw entryError
-      console.log("Saved journal entry:", entryData.id)
 
       // Analyze the entry with OpenAI
       try {
         const analysis = await analyzeJournalEntry(inputText, user.id)
         setAiResponse(analysis)
-        console.log("Analysis completed:", analysis.type)
 
         // Remove the "thinking" message
         setMessages((prevMessages: Message[]) => prevMessages.filter((msg: Message) => msg.content !== "Thinking..."))
@@ -220,7 +213,6 @@ export default function JournalEntryScreen() {
         ])
 
         if (suggestionError) throw suggestionError
-        console.log("Saved suggestion to database")
 
         // Update the journal entry as processed
         const { error: updateError } = await supabase
@@ -237,15 +229,12 @@ export default function JournalEntryScreen() {
         const times = getSuggestedTimes(analysis.type)
         setSuggestedTimes(times)
       } catch (error) {
-        console.error("Error analyzing journal entry:", error)
-
         // Remove the "thinking" message
         setMessages((prevMessages: Message[]) => prevMessages.filter((msg: Message) => msg.content !== "Thinking..."))
 
         // Use fallback analysis if OpenAI fails
         const fallbackAnalysis = getFallbackAnalysis(inputText)
         setAiResponse(fallbackAnalysis)
-        console.log("Using fallback analysis:", fallbackAnalysis.type)
 
         // Add the fallback AI response as a message
         const aiMessage = addMessage(fallbackAnalysis.response, MESSAGE_TYPE.AI, {
@@ -263,9 +252,7 @@ export default function JournalEntryScreen() {
           ])
 
           await supabase.from("journal_entries").update({ processed: true }).eq("id", entryData.id)
-          console.log("Saved fallback suggestion to database")
         } catch (fallbackError) {
-          console.error("Error saving fallback analysis:", fallbackError)
         }
 
         // Set the chat state to waiting for reminder confirmation
@@ -276,7 +263,6 @@ export default function JournalEntryScreen() {
         setSuggestedTimes(times)
       }
     } catch (error) {
-      console.error("Error saving journal entry:", error)
       addMessage("Sorry, I couldn't save your entry. Please try again.", MESSAGE_TYPE.SYSTEM)
       setChatState(CHAT_STATE.WAITING_FOR_ENTRY)
     } finally {
@@ -289,7 +275,6 @@ export default function JournalEntryScreen() {
   const handleReminderConfirmation = async (confirmed: boolean) => {
     try {
       setLoading(true)
-      console.log("Reminder confirmation:", confirmed)
 
       if (confirmed) {
         // User wants a reminder
@@ -301,7 +286,6 @@ export default function JournalEntryScreen() {
         setChatState(CHAT_STATE.WAITING_FOR_ENTRY)
       }
     } catch (error) {
-      console.error("Error handling reminder confirmation:", error)
       setChatState(CHAT_STATE.WAITING_FOR_ENTRY)
     } finally {
       setLoading(false)
@@ -311,25 +295,19 @@ export default function JournalEntryScreen() {
   // Handle time selection
   const handleTimeSelection = async (timeOption: string) => {
     try {
-      console.log(`Time option selected: ${timeOption}`);
       if (timeOption === "custom") {
         // Show time picker for custom time
         setShowTimePicker(true)
       } else {
         // Add loading state
         setLoading(true)
-        console.log("Setting loading state to true");
         // Schedule reminder for selected time
-        console.log("About to call scheduleReminderForTime");
         await scheduleReminderForTime(timeOption)
-        console.log("Completed scheduleReminderForTime");
       }
     } catch (error) {
-      console.error("Error handling time selection:", error)
       addMessage("Failed to set reminder. Please try again.", MESSAGE_TYPE.SYSTEM)
       setChatState(CHAT_STATE.WAITING_FOR_ENTRY)
     } finally {
-      console.log("Setting loading state to false in finally block");
       setLoading(false)
     }
   }
@@ -339,14 +317,12 @@ export default function JournalEntryScreen() {
     try {
       // Format the selected time
       const formattedTime = selectedTime.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" })
-      console.log("Custom time selected:", formattedTime);
 
       // Add loading state
       setLoading(true)
       // Schedule reminder for the custom time
       await scheduleReminderForTime(formattedTime, selectedTime)
     } catch (error) {
-      console.error("Error handling custom time selection:", error)
       addMessage("Failed to set reminder. Please try again.", MESSAGE_TYPE.SYSTEM)
       setChatState(CHAT_STATE.WAITING_FOR_ENTRY)
     } finally {
@@ -357,20 +333,12 @@ export default function JournalEntryScreen() {
   // Schedule a reminder for the selected time
   const scheduleReminderForTime = async (timeOption: string, customTime: Date | null = null) => {
     try {
-      console.log("Starting scheduleReminderForTime function");
-
-      // Check if aiResponse exists and log its value
-      console.log("aiResponse:", aiResponse);
-
       if (!aiResponse || !aiResponse.type) {
-        console.error("aiResponse is missing or incomplete");
         throw new Error("Cannot create reminder: missing response data");
       }
 
       // Request notification permissions
-      console.log("Requesting notification permissions");
       const hasPermission = await requestPermissions()
-      console.log("Notification permission result:", hasPermission);
 
       if (!hasPermission) {
         addMessage("I need permission to send notifications for reminders.", MESSAGE_TYPE.SYSTEM)
@@ -379,14 +347,11 @@ export default function JournalEntryScreen() {
 
       // Parse the time option to get a Date object
       let reminderTime: Date
-      console.log("Parsing time option:", timeOption);
 
       if (customTime) {
         reminderTime = customTime
-        console.log("Using custom time:", reminderTime);
       } else {
         reminderTime = parseTimeString(timeOption)
-        console.log("Parsed time:", reminderTime);
       }
 
       // Add a message confirming the time
@@ -395,15 +360,10 @@ export default function JournalEntryScreen() {
         minute: "2-digit",
         weekday: reminderTime.getDate() !== new Date().getDate() ? "short" : undefined,
       })
-      console.log("Formatted time for message:", formattedTime);
-      console.log("Reminder time as Date object:", reminderTime);
-      console.log("Current time:", new Date());
-      console.log("Time difference in milliseconds:", reminderTime.getTime() - new Date().getTime());
 
       addMessage(`I'll remind you at ${formattedTime} 👍`, MESSAGE_TYPE.AI)
 
       // First create the reminder in the database to get an ID
-      console.log("Inserting reminder in database");
       const { data: reminderData, error: reminderError } = await supabase
         .from("reminders")
         .insert([
@@ -420,17 +380,12 @@ export default function JournalEntryScreen() {
         .single()
 
       if (reminderError) {
-        console.error("Error inserting reminder:", reminderError);
         throw reminderError;
       }
-
-      console.log("Reminder created successfully:", reminderData);
 
       // Format the reminder message
       const title = `${aiResponse.type.charAt(0).toUpperCase() + aiResponse.type.slice(1)} Reminder`
       const body = aiResponse.response.split("?")[0] + "."
-      console.log("Reminder title:", title);
-      console.log("Reminder body:", body);
 
       // Schedule the local notification with actions using the direct Notifications API
       try {
@@ -438,12 +393,9 @@ export default function JournalEntryScreen() {
         // If the date is in the past, notifications will fire immediately
         const now = new Date();
         if (reminderTime.getTime() <= now.getTime()) {
-          console.error("Attempted to schedule notification in the past:", reminderTime);
           addMessage("Sorry, I can't set a reminder for a time in the past. Please choose a future time.", MESSAGE_TYPE.SYSTEM);
           return;
         }
-
-        console.log("Scheduling notification for:", reminderTime.toISOString());
 
         const notificationId = await Notifications.scheduleNotificationAsync({
           content: {
@@ -461,8 +413,6 @@ export default function JournalEntryScreen() {
           },
         });
 
-        console.log("Notification scheduled, ID:", notificationId);
-
         // Update the reminder with the notification ID
         const { error: updateError } = await supabase
           .from("reminders")
@@ -470,29 +420,22 @@ export default function JournalEntryScreen() {
           .eq("id", reminderData.id)
 
         if (updateError) {
-          console.error("Error updating reminder:", updateError);
           // Continue without throwing - this is not a critical error
           // The notification will still work even without the ID stored in the database
-        } else {
-          console.log("Reminder updated successfully");
         }
       } catch (error) {
-        console.error("Exception updating reminder:", error);
         // Continue without throwing - notification will still work
       }
 
       // Set the chat state to reminder set
-      console.log("Setting chat state to REMINDER_SET");
       setChatState(CHAT_STATE.REMINDER_SET)
 
       // Add a final message
       setTimeout(() => {
-        console.log("Adding final message");
         addMessage("Is there anything else you'd like to talk about today?", MESSAGE_TYPE.AI)
         setChatState(CHAT_STATE.WAITING_FOR_ENTRY)
       }, 1000)
     } catch (error) {
-      console.error("Error setting reminder:", error)
       addMessage("Sorry, I couldn't set the reminder. Please try again.", MESSAGE_TYPE.SYSTEM)
       setChatState(CHAT_STATE.WAITING_FOR_ENTRY)
     }

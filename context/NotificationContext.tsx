@@ -81,7 +81,7 @@ export const NotificationProvider: React.FC<NotificationProviderProps> = ({ chil
         },
       ]);
     } catch (error) {
-      console.error("Error setting up notification categories:", error);
+      // Error setting up notification categories
     }
   };
 
@@ -101,14 +101,12 @@ export const NotificationProvider: React.FC<NotificationProviderProps> = ({ chil
     const reminderId = notificationData?.reminderId;
 
     if (!reminderId) {
-      console.log("No reminder ID found in notification");
       return;
     }
 
     // Check if this notification has already been handled to prevent duplicates
     const alreadyHandled = await isNotificationHandled(notificationId);
     if (alreadyHandled) {
-      console.log(`Notification ${notificationId} already handled, skipping`);
       return;
     }
 
@@ -117,7 +115,6 @@ export const NotificationProvider: React.FC<NotificationProviderProps> = ({ chil
       if (actionIdentifier === "complete" || actionIdentifier === Notifications.DEFAULT_ACTION_IDENTIFIER) {
         // Mark reminder as completed in the database
         await supabase.from("reminders").update({ status: "completed" }).eq("id", reminderId);
-        console.log(`Reminder ${reminderId} marked as completed`);
       } else if (actionIdentifier === "snooze") {
         // Get the reminder details
         const { data: reminderData, error: reminderError } = await supabase
@@ -158,15 +155,13 @@ export const NotificationProvider: React.FC<NotificationProviderProps> = ({ chil
               time: snoozeTime.toISOString(),
             })
             .eq("id", reminderId);
-
-          console.log(`Reminder ${reminderId} snoozed for 30 minutes`);
         }
       }
 
       // Mark this notification as handled
       await markNotificationAsHandled(notificationId);
     } catch (error) {
-      console.error("Error handling notification action:", error);
+      // Error handling notification action
     }
   };
 

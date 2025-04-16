@@ -63,10 +63,10 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
 
     const autoLogin = async () => {
       try {
-        console.log("Auto-logging in with test account...");
+        // Remove console.log
         await signIn(TEST_EMAIL, TEST_PASSWORD);
       } catch (error) {
-        console.error("Auto-login failed:", error);
+        // Remove console.error
       }
     };
 

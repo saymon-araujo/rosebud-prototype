@@ -29,7 +29,6 @@ export async function registerForPushNotificationsAsync(): Promise<string | unde
 
     // If we still don't have permission, return undefined
     if (finalStatus !== 'granted') {
-      console.log('Failed to get push token for push notification!');
       return undefined;
     }
 
@@ -39,10 +38,10 @@ export async function registerForPushNotificationsAsync(): Promise<string | unde
         projectId: Constants.expoConfig?.extra?.eas?.projectId,
       })).data;
     } catch (error) {
-      console.error('Error getting push token:', error);
+      // Error getting push token
     }
   } else {
-    console.log('Must use physical device for Push Notifications');
+    // Must use physical device for Push Notifications
   }
 
   // Additional setup for Android
@@ -55,7 +54,8 @@ export async function registerForPushNotificationsAsync(): Promise<string | unde
         lightColor: '#FF231F7C',
       });
     } catch (error) {
-      console.error('Error setting up Android notification channel:', error);
+      console.error("Error setting up Android notification channel:", error);
+      // Error setting up Android notification channel
     }
   }
 
