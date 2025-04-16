@@ -1,9 +1,21 @@
 import { StyleSheet, View, Text, TouchableOpacity } from "react-native"
 import { Ionicons } from "@expo/vector-icons"
 
-export default function JournalEntryItem({ entry, onPress }) {
+interface JournalEntry {
+  id: string;
+  content: string;
+  created_at: string;
+  processed: boolean;
+}
+
+interface JournalEntryItemProps {
+  entry: JournalEntry;
+  onPress: () => void;
+}
+
+export default function JournalEntryItem({ entry, onPress }: JournalEntryItemProps): JSX.Element {
   // Format date to a readable format
-  const formatDate = (dateString) => {
+  const formatDate = (dateString: string): string => {
     const date = new Date(dateString)
     return date.toLocaleDateString("en-US", {
       month: "short",
@@ -13,7 +25,7 @@ export default function JournalEntryItem({ entry, onPress }) {
   }
 
   // Truncate content if it's too long
-  const truncateContent = (content, maxLength = 100) => {
+  const truncateContent = (content: string, maxLength = 100): string => {
     if (content.length <= maxLength) return content
     return content.substring(0, maxLength) + "..."
   }
@@ -83,4 +95,4 @@ const styles = StyleSheet.create({
     color: "#ffc107",
     marginLeft: 5,
   },
-})
+}) 

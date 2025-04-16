@@ -11,5 +11,5 @@
   "include": [
     "**/*.ts",
     "**/*.tsx"
-  ]
+, "supabase/functions/analyze-journal/index.js"  ]
 }

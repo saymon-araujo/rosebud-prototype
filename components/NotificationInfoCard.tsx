@@ -1,7 +1,7 @@
 import { StyleSheet, View, Text } from "react-native"
 import { Ionicons } from "@expo/vector-icons"
 
-export default function NotificationInfoCard() {
+export default function NotificationInfoCard(): JSX.Element {
   return (
     <View style={styles.container}>
       <View style={styles.header}>
@@ -90,4 +90,4 @@ const styles = StyleSheet.create({
     fontStyle: "italic",
     marginTop: 10,
   },
-})
+}) 

@@ -1,9 +1,26 @@
 import { StyleSheet, View, Text } from "react-native"
 import { Ionicons } from "@expo/vector-icons"
 
-export default function AIResponseBubble({ response, type }) {
+type SuggestionType =
+  | "sleep"
+  | "stress"
+  | "hydration"
+  | "exercise"
+  | "nutrition"
+  | "screen-time"
+  | "social"
+  | "mindfulness"
+  | "productivity"
+  | string;
+
+interface AIResponseBubbleProps {
+  response: string;
+  type?: SuggestionType;
+}
+
+export default function AIResponseBubble({ response, type }: AIResponseBubbleProps): JSX.Element {
   // Get icon based on suggestion type
-  const getIcon = () => {
+  const getIcon = (): string => {
     switch (type) {
       case "sleep":
         return "moon-outline"
@@ -88,4 +105,4 @@ const styles = StyleSheet.create({
     color: "#212529",
     lineHeight: 22,
   },
-})
+}) 

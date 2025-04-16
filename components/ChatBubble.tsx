@@ -1,7 +1,12 @@
 import { StyleSheet, View, Text, TouchableOpacity } from "react-native"
 import { Ionicons } from "@expo/vector-icons"
 
-export const UserBubble = ({ message, timestamp }) => {
+interface UserBubbleProps {
+  message: string;
+  timestamp?: string;
+}
+
+export const UserBubble = ({ message, timestamp }: UserBubbleProps) => {
   return (
     <View style={styles.userBubbleContainer}>
       <View style={styles.userBubble}>
@@ -12,9 +17,27 @@ export const UserBubble = ({ message, timestamp }) => {
   )
 }
 
-export const AIBubble = ({ message, timestamp, type }) => {
+type SuggestionType =
+  | "sleep"
+  | "stress"
+  | "hydration"
+  | "exercise"
+  | "nutrition"
+  | "screen-time"
+  | "social"
+  | "mindfulness"
+  | "productivity"
+  | string;
+
+interface AIBubbleProps {
+  message: string;
+  timestamp?: string;
+  type?: SuggestionType;
+}
+
+export const AIBubble = ({ message, timestamp, type }: AIBubbleProps) => {
   // Get icon based on suggestion type
-  const getIcon = () => {
+  const getIcon = (): string => {
     switch (type) {
       case "sleep":
         return "moon-outline"
@@ -56,7 +79,13 @@ export const AIBubble = ({ message, timestamp, type }) => {
   )
 }
 
-export const QuickReplyButton = ({ text, onPress, primary = true }) => {
+interface QuickReplyButtonProps {
+  text: string;
+  onPress: () => void;
+  primary?: boolean;
+}
+
+export const QuickReplyButton = ({ text, onPress, primary = true }: QuickReplyButtonProps) => {
   return (
     <TouchableOpacity
       style={[styles.quickReplyButton, primary ? styles.primaryButton : styles.secondaryButton]}
@@ -69,11 +98,19 @@ export const QuickReplyButton = ({ text, onPress, primary = true }) => {
   )
 }
 
-export const QuickReplyContainer = ({ children }) => {
+interface QuickReplyContainerProps {
+  children: React.ReactNode;
+}
+
+export const QuickReplyContainer = ({ children }: QuickReplyContainerProps) => {
   return <View style={styles.quickReplyContainer}>{children}</View>
 }
 
-export const SystemMessage = ({ message }) => {
+interface SystemMessageProps {
+  message: string;
+}
+
+export const SystemMessage = ({ message }: SystemMessageProps) => {
   return (
     <View style={styles.systemMessageContainer}>
       <Text style={styles.systemMessageText}>{message}</Text>
@@ -209,4 +246,4 @@ const styles = StyleSheet.create({
     paddingVertical: 4,
     borderRadius: 12,
   },
-})
+}) 

@@ -12,14 +12,16 @@ import {
   Platform,
 } from "react-native"
 import { AuthContext } from "../context/AuthContext"
+import { useRouter } from "expo-router"
 
-export default function RegisterScreen({ navigation }) {
+export default function RegisterScreen() {
   const [email, setEmail] = useState("")
   const [password, setPassword] = useState("")
   const [confirmPassword, setConfirmPassword] = useState("")
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState("")
   const { signUp } = useContext(AuthContext)
+  const router = useRouter()
 
   const handleRegister = async () => {
     if (!email || !password || !confirmPassword) {
@@ -37,8 +39,8 @@ export default function RegisterScreen({ navigation }) {
       setError("")
       await signUp(email, password)
       alert("Check your email for the confirmation link!")
-      navigation.navigate("Login")
-    } catch (error) {
+      router.push("/login")
+    } catch (error: any) {
       setError(error.message || "Failed to sign up")
     } finally {
       setLoading(false)
@@ -86,7 +88,7 @@ export default function RegisterScreen({ navigation }) {
 
         <View style={styles.loginContainer}>
           <Text style={styles.loginText}>Already have an account? </Text>
-          <TouchableOpacity onPress={() => navigation.navigate("Login")}>
+          <TouchableOpacity onPress={() => router.push("/login")}>
             <Text style={styles.loginLink}>Sign In</Text>
           </TouchableOpacity>
         </View>

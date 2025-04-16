@@ -5,11 +5,23 @@ import { StyleSheet, View, Text, TouchableOpacity, Modal, Platform } from "react
 import DateTimePicker from "@react-native-community/datetimepicker"
 import { Ionicons } from "@expo/vector-icons"
 
-const TimePickerModal = ({ visible, onClose, onSelectTime, initialTime = new Date() }) => {
-  const [selectedTime, setSelectedTime] = useState(initialTime)
-  const [showPicker, setShowPicker] = useState(Platform.OS === "ios")
+interface TimePickerModalProps {
+  visible: boolean;
+  onClose: () => void;
+  onSelectTime: (time: Date) => void;
+  initialTime?: Date;
+}
 
-  const handleTimeChange = (event, selectedDate) => {
+const TimePickerModal = ({
+  visible,
+  onClose,
+  onSelectTime,
+  initialTime = new Date()
+}: TimePickerModalProps) => {
+  const [selectedTime, setSelectedTime] = useState<Date>(initialTime)
+  const [showPicker, setShowPicker] = useState<boolean>(Platform.OS === "ios")
+
+  const handleTimeChange = (event: any, selectedDate?: Date) => {
     const currentDate = selectedDate || selectedTime
     setSelectedTime(currentDate)
 
@@ -23,7 +35,7 @@ const TimePickerModal = ({ visible, onClose, onSelectTime, initialTime = new Dat
     onClose()
   }
 
-  const formatTime = (date) => {
+  const formatTime = (date: Date): string => {
     return date.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" })
   }
 
@@ -160,4 +172,4 @@ const styles = StyleSheet.create({
   },
 })
 
-export default TimePickerModal
+export default TimePickerModal 

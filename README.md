@@ -1,50 +1,103 @@
-# Welcome to your Expo app 👋
+<h1 align="center">
+    <img alt="Banner" title="#banner" src="./assets/rentx-publish-assets/banner/banner.png" />
+</h1>
 
-This is an [Expo](https://expo.dev) project created with [`create-expo-app`](https://www.npmjs.com/package/create-expo-app).
+<h3 align="center">Luxury Car Rental App Project</h3>
 
-## Get started
+<p align="center">
+  <img alt="License" src="https://img.shields.io/badge/license-MIT-brightgreen">
+</p>
 
-1. Install dependencies
+<p align="center">
+ <a href="#description">Description</a> • 
+ <a href="#technical-details">Technical details</a> •
+ <a href="#features">Features</a> • 
+ <a href="#how-to-use">How to use</a> • 
+ <a href="#license">License</a>
+</p>
 
-   ```bash
-   npm install
-   ```
+<br>
+<br>
 
-2. Start the app
+# Description
+<p>This project is about an app for companies that rent luxury cars, it allows the user to view and rent the cars. This project was developed during my bootcamp at Rocketseat.</p>
 
-   ```bash
-    npx expo start
-   ```
 
-In the output, you'll find options to open the app in a
+<div align="center">
+ <img alt="ScreenShot1" title="#screenshot1" src="./assets/rentx-publish-assets/screenshots/screenshot4.png"  />&nbsp;&nbsp;&nbsp;&nbsp;
+ <img alt="ScreenShot2" title="#screenshot2" src="./assets/rentx-publish-assets/screenshots/screenshot1.png"  />&nbsp;&nbsp;&nbsp;&nbsp;
+ <img alt="ScreenShot4" title="#screenshot4" src="./assets/rentx-publish-assets/screenshots/screenshot3.png"  />&nbsp;&nbsp;&nbsp;&nbsp;
+ <img alt="ScreenShot3" title="#screenshot3" src="./assets/rentx-publish-assets/screenshots/screenshot2.png"  />&nbsp;&nbsp;&nbsp;&nbsp;
+</div>
 
-- [development build](https://docs.expo.dev/develop/development-builds/introduction/)
-- [Android emulator](https://docs.expo.dev/workflow/android-studio-emulator/)
-- [iOS simulator](https://docs.expo.dev/workflow/ios-simulator/)
-- [Expo Go](https://expo.dev/go), a limited sandbox for trying out app development with Expo
 
-You can start developing by editing the files inside the **app** directory. This project uses [file-based routing](https://docs.expo.dev/router/introduction).
+<br>
 
-## Get a fresh project
+# Technical details
+<p>The project was developed using React Native with Expo, so it works on Android and iOS. It is an app designed to be Offline First, and Expo modules were used to speed up the development.</p>
 
-When you're ready, run:
+### Some of the concepts that were worked on during the project development are:
+
+- Custom hooks and useContext
+- Offline First implementation with WatermelonDB
+- Animations with Reanimated
+- Lottie animations implementation
+- Advanced features with calendars
+
+<br>
+
+# Features
+
+- [x] Sign up and Sign in
+- [x] View information about the available cars
+- [x] Schedule a period to rent the car
+- [x] View my rented cars
+- [x] Change user information and password
+
+<p align="center">
+  <img src="./assets/rentx-publish-assets/preview/preview-rentx.gif">
+</p>
+
+<br>
+
+
+# How to use
+
+To run the project you will need to have [Node.js](https://nodejs.org/) and [npm](https://www.npmjs.com/) or [Yarn](https://classic.yarnpkg.com/en/docs/getting-started) installed. After this follow these instructions:
 
 ```bash
-npm run reset-project
+# Clone this repository to your local machine
+$ git clone https://github.com/yourusername/your-repo-name
+
+# Navigate to the project folder
+$ cd your-repo-name
+
+# Install the dependencies
+$ npm install
+# or
+$ yarn install
+
+# Start the server
+$ npx expo start
+
+# Login (demo credentials)
+ Email: demo@example.com
+ Password: 123456
 ```
 
-This command will move the starter code to the **app-example** directory and create a blank **app** directory where you can start developing.
+<br>
+<br>
 
-## Learn more
+# License
 
-To learn more about developing your project with Expo, look at the following resources:
+This project is under MIT license. See the [LICENSE](LICENSE) file for more information.
 
-- [Expo documentation](https://docs.expo.dev/): Learn fundamentals, or go into advanced topics with our [guides](https://docs.expo.dev/guides).
-- [Learn Expo tutorial](https://docs.expo.dev/tutorial/introduction/): Follow a step-by-step tutorial where you'll create a project that runs on Android, iOS, and the web.
+---
 
-## Join the community
-
-Join our community of developers creating universal apps.
-
-- [Expo on GitHub](https://github.com/expo/expo): View our open source platform and contribute.
-- [Discord community](https://chat.expo.dev): Chat with Expo users and ask questions.
+Made by Your Name
+<div>
+ <p> Feel free to get in touch, it will be a pleasure to chat.</p>
+  <a href="https://www.linkedin.com/in/your-linkedin/" target="_blank"><img src="https://img.shields.io/badge/LinkedIn-0077B5?style=for-the-badge&logo=linkedin&logoColor=white" target="_blank"></a>
+  <a href="mailto:your-email@example.com?subject=Hello%20From%20Github"><img src="https://img.shields.io/badge/gmail-%23D14836.svg?&style=for-the-badge&logo=gmail&logoColor=white" /></a>
+  <a href="https://t.me/your_telegram_username"><img src="https://img.shields.io/badge/Telegram-2CA5E0?style=for-the-badge&logo=telegram&logoColor=white" /></a>&nbsp;&nbsp;&nbsp;&nbsp;
+</div>
