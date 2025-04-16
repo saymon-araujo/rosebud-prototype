@@ -3,7 +3,7 @@ import { useFonts } from 'expo-font';
 import { Stack } from 'expo-router';
 import * as SplashScreen from 'expo-splash-screen';
 import { StatusBar } from 'expo-status-bar';
-import { useEffect } from 'react';
+import React, { useState, useContext, useEffect, useRef } from "react"
 import 'react-native-reanimated';
 
 import { useColorScheme } from '@/hooks/useColorScheme';
@@ -41,7 +41,8 @@ export default function RootLayout() {
                 <Stack.Screen name="index" options={{ headerShown: false }} />
                 <Stack.Screen name="history" options={{ headerShown: false }} />
                 <Stack.Screen name="settings" options={{ headerShown: false }} />
-                <Stack.Screen name="journal-entry" options={{ headerShown: false }} />
+                <Stack.Screen name="reminder" options={{ headerShown: false }} />
+                <Stack.Screen name="journal-entry/index" options={{ headerShown: false }} />
                 <Stack.Screen name="journal-entry/[id]" options={{ headerShown: false }} />
                 <Stack.Screen name="+not-found" />
               </Stack>
