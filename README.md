@@ -361,6 +361,10 @@ Journal AI Mobile works offline with these capabilities:
 - Scheduled reminders continue to function
 - Data syncs automatically when connection is restored
 
+## 📋 To-Do
+
+- [ ] Fix TypeScript issues in VS Code IntelliSense
+
 ## 🤝 Contributing
 
 Contributions are welcome! Please feel free to submit a Pull Request.
