@@ -1,11 +1,12 @@
-export const analyzeJournalEntry = async (content, userId) => {
+export const analyzeJournalEntry = async (content: string, userId: string) => {
   try {
-    const res = await fetch(`${process.env.NEXT_PUBLIC_SUPABASE_URL}/functions/v1/analyze-journal`, {
+       
+    const res = await fetch(`https://jjavrmtjyzdetuahjkhp.supabase.co/functions/v1/analyze-journal`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
-        apikey: process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY,
-        Authorization: `Bearer ${process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY}`,
+        apikey: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImpqYXZybXRqeXpkZXR1YWhqa2hwIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDQ3NTMzOTAsImV4cCI6MjA2MDMyOTM5MH0.izch3eZZAOQEgUTpBuwPVq9jMsje5dnUEGtbBhxAq7g",
+        Authorization: `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImpqYXZybXRqeXpkZXR1YWhqa2hwIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDQ3NTMzOTAsImV4cCI6MjA2MDMyOTM5MH0.izch3eZZAOQEgUTpBuwPVq9jMsje5dnUEGtbBhxAq7g`,
       },
       body: JSON.stringify({ content, userId }),
     })
@@ -22,7 +23,7 @@ export const analyzeJournalEntry = async (content, userId) => {
   }
 }
 
-export const getFallbackAnalysis = (content) => {
+export const getFallbackAnalysis = (content: string) => {
   // A simple fallback analysis with a more conversational tone
   return {
     type: "general",
@@ -33,7 +34,7 @@ export const getFallbackAnalysis = (content) => {
 }
 
 // Helper function to get suggested times based on suggestion type
-export const getSuggestedTimes = (type) => {
+export const getSuggestedTimes = (type: string) => {
   const now = new Date()
   const currentHour = now.getHours()
 
@@ -86,7 +87,7 @@ export const getSuggestedTimes = (type) => {
 }
 
 // Helper function to parse time string into Date object
-export const parseTimeString = (timeString) => {
+export const parseTimeString = (timeString: string): Date => {
   const now = new Date()
 
   if (timeString.includes("Tomorrow")) {
@@ -99,7 +100,7 @@ export const parseTimeString = (timeString) => {
     tomorrow.setDate(tomorrow.getDate() + 1)
     tomorrow.setHours(
       period === "PM" && Number.parseInt(hours) !== 12 ? Number.parseInt(hours) + 12 : Number.parseInt(hours),
-      Number.parseInt(minutes),
+      Number.parseInt(minutes) || 0,
       0,
       0,
     )
@@ -107,7 +108,7 @@ export const parseTimeString = (timeString) => {
     return tomorrow
   } else if (timeString.includes("In")) {
     // Handle "In X hours" format
-    const hours = Number.parseInt(timeString.match(/\d+/)[0])
+    const hours = Number.parseInt(timeString.match(/\d+/)?.[0] || "1")
     const futureTime = new Date(now)
     futureTime.setHours(futureTime.getHours() + hours)
     return futureTime
@@ -124,7 +125,7 @@ export const parseTimeString = (timeString) => {
     const reminderTime = new Date(now)
     reminderTime.setHours(
       period === "PM" && Number.parseInt(hours) !== 12 ? Number.parseInt(hours) + 12 : Number.parseInt(hours),
-      Number.parseInt(minutes),
+      Number.parseInt(minutes) || 0,
       0,
       0,
     )
